@@ -1,6 +1,9 @@
 package com.example.pytania;
 
+import static android.view.View.INVISIBLE;
+
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ private ArrayList<Pytanie> pytania;
 private TextView textView;
 private ImageView imageView;
 private Button buttonTak,buttonNie,buttonDalej;
+private  int aktualne =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,21 @@ private Button buttonTak,buttonNie,buttonDalej;
         imageView = findViewById(R.id.imageView);
 
         wpiszPytanie(0);
+        buttonDalej.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        aktualne++;
+                        if(aktualne ==pytania.size()) {
+                            buttonDalej.setVisibility(INVISIBLE);
+                            //TODO: wypisz wyniku
+                        } else {
+                            wpiszPytanie(aktualne);
+                        }
+                        wpiszPytanie(aktualne);
+                    }
+                }
+        );
 
     }
     private  void wpiszPytanie(int ktore) {
