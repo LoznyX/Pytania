@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,12 +36,29 @@ private  int aktualne =0;
         });
         dodajPytanie();
         textView = findViewById(R.id.textViewPytanie);
-        buttonTak = findViewById(R.id.button2);
-        buttonNie = findViewById(R.id.button);
+        buttonTak = findViewById(R.id.button);
+        buttonNie = findViewById(R.id.button2);
         buttonDalej = findViewById(R.id.button6);
         imageView = findViewById(R.id.imageView);
 
+        buttonNie.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sprawdzOdpowiedz(false);
+                    }
+                }
+        );
         wpiszPytanie(0);
+        buttonTak.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sprawdzOdpowiedz(true);
+
+                    }
+                }
+        );
         buttonDalej.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -57,6 +75,15 @@ private  int aktualne =0;
                 }
         );
 
+    }
+    private void sprawdzOdpowiedz(boolean odp) {
+        if (pytania.get(aktualne).isCzyPoprawnie() == odp) {
+            pytania.get(aktualne).setCzyPoprawnie(true);
+            Toast.makeText(this, "poprawna odpowiedz", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "zla odpowiedz", Toast.LENGTH_SHORT).show();
+            pytania.get(aktualne).setCzyPoprawnie(false);
+        }
     }
     private  void wpiszPytanie(int ktore) {
         Pytanie pytanko = pytania.get(ktore);
