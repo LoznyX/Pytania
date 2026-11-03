@@ -1,7 +1,7 @@
 package com.example.pytania;
 
 public class Pytanie {
-    private long idZdjecia;
+    private long idZdjecia; //
     private String trescPytania;
     private Boolean poprawnaOdpowiedz;
     //True // False

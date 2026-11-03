@@ -64,9 +64,18 @@ private  int aktualne =0;
                     @Override
                     public void onClick(View view) {
                         aktualne++;
-                        if(aktualne ==pytania.size()) {
+                        if(aktualne == pytania.size()) {
                             buttonDalej.setVisibility(INVISIBLE);
                             //TODO: wypisz wyniku
+                            int punkty =0;
+                            int punktymax =3;
+                            for (Pytanie pytanie:pytania
+                                 ) {
+                                if(pytanie.isCzyPoprawnie()) {
+                                    punkty++;
+                                }
+                            }
+                            textView.setText("koniec testu wynik:"+punkty+"/"+punktymax);
                         } else {
                             wpiszPytanie(aktualne);
                         }
