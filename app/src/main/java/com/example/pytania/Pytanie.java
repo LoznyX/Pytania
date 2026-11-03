@@ -7,10 +7,24 @@ public class Pytanie {
     //True // False
     private boolean czyPoprawnie ;
     // poprawna odp = True
+    private  String podpowiedz;
+
+    public String getPodpowiedz() {
+        return podpowiedz;
+    }
 
     public Pytanie(long idZdjecia, String trescPytania, Boolean poprawnaOdpowiedz) {
         this.idZdjecia = idZdjecia;
         this.trescPytania = trescPytania;
+        this.poprawnaOdpowiedz = poprawnaOdpowiedz;
+        czyPoprawnie = false;
+        podpowiedz = "brak podpowiedzi :D";
+    }
+
+    public Pytanie(long idZdjecia, String trescPytania,boolean poprawnaOdpowiedz, String podpowiedz) {
+        this.idZdjecia = idZdjecia;
+        this.trescPytania = trescPytania;
+        this.podpowiedz = podpowiedz;
         this.poprawnaOdpowiedz = poprawnaOdpowiedz;
         czyPoprawnie = false;
     }

@@ -2,6 +2,7 @@ package com.example.pytania;
 
 import static android.view.View.INVISIBLE;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +19,11 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-private ArrayList<Pytanie> pytania;
-private TextView textView;
-private ImageView imageView;
-private Button buttonTak,buttonNie,buttonDalej;
-private  int aktualne =0;
+    private static ArrayList<Pytanie> pytania;
+    private TextView textView;
+    private ImageView imageView;
+    private Button buttonTak, buttonNie, buttonDalej, buttonSprawdz;
+    private int aktualne = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,13 @@ private  int aktualne =0;
             return insets;
         });
         dodajPytanie();
+        buttonSprawdz = findViewById(R.id.buttonSprawdz);
         textView = findViewById(R.id.textViewPytanie);
         buttonTak = findViewById(R.id.button);
         buttonNie = findViewById(R.id.button2);
         buttonDalej = findViewById(R.id.button6);
         imageView = findViewById(R.id.imageView);
+
 
         buttonNie.setOnClickListener(
                 new View.OnClickListener() {
@@ -64,18 +67,18 @@ private  int aktualne =0;
                     @Override
                     public void onClick(View view) {
                         aktualne++;
-                        if(aktualne == pytania.size()) {
+                        if (aktualne == pytania.size()) {
                             buttonDalej.setVisibility(INVISIBLE);
                             //TODO: wypisz wyniku
-                            int punkty =0;
-                            int punktymax =3;
-                            for (Pytanie pytanie:pytania
-                                 ) {
-                                if(pytanie.isCzyPoprawnie()) {
+                            int punkty = 0;
+                            int punktymax = 3;
+                            for (Pytanie pytanie : pytania
+                            ) {
+                                if (pytanie.isCzyPoprawnie()) {
                                     punkty++;
                                 }
                             }
-                            textView.setText("koniec testu wynik:"+punkty+"/"+punktymax);
+                            textView.setText("koniec testu wynik:" + punkty + "/" + punktymax);
                         } else {
                             wpiszPytanie(aktualne);
                         }
@@ -83,8 +86,19 @@ private  int aktualne =0;
                     }
                 }
         );
-
+        buttonSprawdz.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //intencja jawna
+                        Intent intent = new Intent(MainActivity.this, PodpowiedzActivity.class);
+                        intent.putExtra("NR", aktualne);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
+
     private void sprawdzOdpowiedz(boolean odp) {
         if (pytania.get(aktualne).isCzyPoprawnie() == odp) {
             pytania.get(aktualne).setCzyPoprawnie(true);
@@ -94,15 +108,20 @@ private  int aktualne =0;
             pytania.get(aktualne).setCzyPoprawnie(false);
         }
     }
-    private  void wpiszPytanie(int ktore) {
+
+    private void wpiszPytanie(int ktore) {
         Pytanie pytanko = pytania.get(ktore);
         textView.setText(pytanko.getTrescPytania());
         imageView.setImageResource((int) pytanko.getIdZdjecia());
     }
-    private void dodajPytanie() {
+
+    static ArrayList<Pytanie> dodajPytanie() {
         pytania = new ArrayList<>();
-        pytania.add(new Pytanie(R.drawable.szynszyla, "Czy to jest szynszyla?",true));
-        pytania.add(new Pytanie(R.drawable.axolotl,"czy to jest axolotl?",true));
-        pytania.add(new Pytanie(R.drawable.zebra,"czy to zebra?",true));
-    }
+        pytania.add(new Pytanie(R.drawable.szynszyla, "Czy to jest szynszyla?", true, "szynszyla jest kroktkos"));
+
+        pytania.add(new Pytanie(R.drawable.axolotl, "czy to jest axolotl?", true, "jest czarny"));
+        pytania.add(new Pytanie(R.drawable.zebra, "czy to zebra?", true, "jest kolorowy"));
+
+    return pytania;
+}
 }
